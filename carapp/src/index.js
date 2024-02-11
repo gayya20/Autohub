@@ -10,11 +10,11 @@ import { AuthProvider } from "@asgardeo/auth-react";
 
 
 const config = {
-  signInRedirectURL: "http://localhost:3000/dashboard",
-  signOutRedirectURL: "https://localhost:3000/",
+  signInRedirectURL: "http://localhost:3000",
+  signOutRedirectURL: "http://localhost:3000",
   clientID: "gv2CJSnpYiUPmKDxt6ToF1lZJ8ka",
   baseUrl: "https://api.asgardeo.io/t/gayalrk",
-  scope: ["openid", "profile"]
+  scope: ["openid", "profile","app_roles"]
 };
 
 const root = ReactDOM.createRoot(document.getElementById('root'));

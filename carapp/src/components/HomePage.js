@@ -27,18 +27,19 @@ export const HomePage=(props)=> {
   };
 
   return (
+    
     <div style={backgroundImageStyle}>
         
 
       <div>
-            <div className="top" style={{marginRight:"800px",marginBottom:"150px",fontWeight:"2"}}>
+            <div className="top" style={{marginRight:"800px",marginBottom:"40px",fontWeight:"2"}}>
                 <h1 style={{color:"white",fontWeight:"1",fontSize:"60px",marginLeft:"20px"}}>
                     Welcome to <span style={{fontWeight:"700",fontSize:"100px",color:""}}> <span style={{color:"gray",backgroundColor:"",marginTop:"10px"}}>auto</span>Hub</span>
                 </h1>
                 {/* <img src={logo} alt="AutoHub Logo" style={{ width: "100px", height: "100px", marginTop: "10px",borderRadius:"50%" }} /> */}
 
-                <h2 style={{color:"gray",fontWeight:"1",fontSize:"20px",marginLeft:"30px"}}>Our dedicated team is committed to delivering top-notch services, ensuring your vehicles are in optimal condition for the road ahead.</h2>
-                <Button variant="contained" onClick={ () => signIn() } style={{backgroundColor:"red",marginLeft:"30px",marginTop:"30px",width:"200px",height:"40px"}}>Get Started</Button>
+                <h2 style={{color:"rgb(239 216 208 / 80%)",fontWeight:"0",fontSize:"15px",marginLeft:"30px"}}>Our dedicated team is committed to delivering top-notch services, ensuring your vehicles are in optimal condition for the road ahead.</h2>
+                <Button variant="contained" onClick={ () => signIn() } style={{backgroundColor:"#ff4a09",marginLeft:"30px",marginTop:"30px",width:"200px",height:"40px"}}>Get Started</Button>
 
 
             </div>
@@ -51,4 +52,4 @@ export const HomePage=(props)=> {
   );
 }
 
-// export default HomePage;
+export default HomePage;

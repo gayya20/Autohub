@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Header } from "./Header";
+// import { Header } from "./Header";
 import ButtonAppBar from "./ButtonAppBar";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -15,6 +15,11 @@ import Fortune3 from "../assets/top-feature44.jpg"
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
 import { red } from '@mui/material/colors';
+import Home from "../pages/admin/Home";
+import { useAuthContext } from '@asgardeo/auth-react';
+import Button from '@mui/material/Button';
+
+
 
 const color = red[500];
 
@@ -22,7 +27,8 @@ const color = red[500];
 
 const Dashboard = () => {const [backgroundIndex, setBackgroundIndex] = useState(0);
     const backgrounds = [Fortune1, Fortune2, Fortune3];
-  
+    const { state, signIn, signOut } = useAuthContext();
+
     useEffect(() => {
       const interval = setInterval(() => {
         setBackgroundIndex((prevIndex) => (prevIndex + 1) % backgrounds.length);
@@ -36,6 +42,8 @@ const Dashboard = () => {const [backgroundIndex, setBackgroundIndex] = useState(
     return (
       <>
         <ButtonAppBar />
+
+
         
         <div
           className="background"
@@ -131,6 +139,7 @@ const Dashboard = () => {const [backgroundIndex, setBackgroundIndex] = useState(
             Contac us
         </div>
       </div>
+      <Home/>
     </>
   );
 }
