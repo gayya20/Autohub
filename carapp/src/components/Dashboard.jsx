@@ -38,6 +38,8 @@ const DemoPaper = styled(Paper)(({ theme }) => ({
 const Dashboard = () => {
   const [serviceProviders, setServiceProviders] = useState([]);
   const [openModals, setOpenModals] = useState([]);
+  const [appointmentFormData, setAppointmentFormData] = useState({});
+  const [isAppointmentModal, setIsAppointmentModal] = useState(false);
 
   useEffect(() => {
     loadServiceProviders();
@@ -55,22 +57,34 @@ const Dashboard = () => {
   };
 
   const handleViewDetails = (index) => {
-    const newOpenModals = [...openModals];
-    newOpenModals[index] = true;
-    setOpenModals(newOpenModals);
+    setOpenModals((prevOpenModals) => prevOpenModals.map((val, i) => (i === index ? true : val)));
+    setIsAppointmentModal(false);
   };
 
-  const handleAppoinment = (index) => {
-    const newOpenModals = [...openModals];
-    newOpenModals[index] = true;
-    setOpenModals(newOpenModals);
+  const handleAppointment = (index) => {
+    setAppointmentFormData({ provider: serviceProviders[index], selectedService: '', date: '', time: '' });
+    setOpenModals((prevOpenModals) => prevOpenModals.map((val, i) => (i === index ? true : val)));
+    setIsAppointmentModal(true);
   };
-
 
   const handleCloseModal = (index) => {
-    const newOpenModals = [...openModals];
-    newOpenModals[index] = false;
-    setOpenModals(newOpenModals);
+    setOpenModals((prevOpenModals) => prevOpenModals.map((val, i) => (i === index ? false : val)));
+  };
+
+  // Handle change for appointment form fields
+  const handleAppointmentFormChange = (event) => {
+    const { name, value } = event.target;
+    setAppointmentFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmitAppointment = () => {
+    // Add logic to handle appointment submission
+    console.log("Appointment Form Data:", appointmentFormData);
+    // Add logic to submit appointment data to backend or perform other actions
+    // You can also close the modal or reset form data after submission
   };
 
   const backgrounds = [Fortune1, Fortune2, Fortune3];
@@ -170,10 +184,9 @@ const Dashboard = () => {
                 </CardContent>
                 <CardActions>
                   <Button variant="contained" onClick={() => handleViewDetails(index)} style={{ backgroundColor: "#ff4a09", width: "60px", height: "40px" }}>View</Button>
-                  <Button variant="contained" onClick={() => handleAppoinment(index)} style={{ backgroundColor: "#ff4a09", width: "110px", height: "40px" }}>Appoinment</Button>
+                  <Button variant="contained" onClick={() => handleAppointment(index)} style={{ backgroundColor: "#ff4a09", width: "110px", height: "40px" }}>Appointment</Button>
                 </CardActions>
 
-                
                 <Modal
                   open={openModals[index]}
                   onClose={() => handleCloseModal(index)}
@@ -193,62 +206,108 @@ const Dashboard = () => {
                       bgcolor: "background.paper",
                       boxShadow: 24,
                       p: 4,
+                      borderRadius:"10px"
                     }}
                   >
-                    <Typography id="modal-modal-title" variant="" component="h2" sx={{ textAlign: "center" ,fontSize:"20px"}}>
-                      Service Provider Details
+                    <Typography id="modal-modal-title" variant="" component="h2" sx={{ textAlign: "center", fontSize: "20px" }}>
+                      {isAppointmentModal ? "Make an Appointment" : "Service Provider Details"}
                     </Typography>
-                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 ,borderRadius:"20px"}}>
+                      {isAppointmentModal ? (
+                        <>
+                          <Box sx={{ minWidth: 60, textAlign: "center",borderRadius:"20px" }}>
+                            
+                <div className="col-md-14 offset-md-3 border rounded p-5 mt-7" style={{ backgroundColor: "", marginLeft: "auto", marginRight: "auto" }}>
+                  <div className="mb-3 row">
+                    <label htmlFor="name" className="col-sm-3 col-form-label">
+                      Name
+                    </label>
+                    <div className="col-sm-9">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter Your Name"
+                        name="name"
+                        // value={formData.name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
 
+                  <div className="mb-3 row">
+                    <label htmlFor="vehicleNumber" className="col-sm-3 col-form-label">
+                      Vehicle Number
+                    </label>
+                    <div className="col-sm-9">
+                      <input
+                        type="text"
+                        className="form-control"
+                        placeholder="Enter Your Vehicle Number"
+                        name="vehicleNumber"
+                        // value={formData.vehicleNumber}
+                        onChange={handleChange}
+                        required
+                      />
+                    </div>
+                  </div>
+
+  <div className="mb-3 row">
+    <label htmlFor="service" className="col-sm-3 col-form-label">
+      Service
+    </label>
+    <div className="col-sm-9">
+      <FormControl sx={{ width: "100%" }}>
+        <InputLabel id="service-select-label">Service Type</InputLabel>
+        <Select
+          labelId="service-select-label"
+          id="service-select"
+          name="selectedService"
+          value={appointmentFormData.selectedService}
+          label="Service Type"
+          onChange={handleAppointmentFormChange}
+        >
+          <MenuItem value="Full Body Wash">Full Body Wash</MenuItem>
+          <MenuItem value="Mechanical">Mechanical</MenuItem>
+          <MenuItem value="Full Scan">Full Scan</MenuItem>
+        </Select>
+      </FormControl>
+    </div>
+  </div>
+</div>
+
+                            {/* Add more form fields for date, time, etc. */}
+                          </Box>
+                          <Button variant="contained" onClick={handleSubmitAppointment} style={{ backgroundColor: "#ff4a09", width: "150px", height: "40px", marginLeft: "50px", marginTop: "100px",marginRight:"" }}>Submit</Button>
+                        </>
+                      ) : (
+                        <>
                           <CardMedia
-                        component="img"
-                        alt={provider.name}
-                        height="240"
-                        image={image}
-                        sx={{marginTop:"-10px"}}
-                />
-                      <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"center"}}>
-                        {provider.name}
-                      </Typography>
-                      <Typography variant="body2" style={{ color: "black", fontWeight: "bold",marginLeft:"50px" }}>
+                            component="img"
+                            alt={provider.name}
+                            height="260"
+                            width="10"
+                            image={image}
+                            sx={{ marginTop: "-10px" }}
+                          />
+                          <Typography gutterBottom variant="h5" component="div" sx={{ textAlign: "center" }}>
+                            {provider.name}
+                          </Typography>
+                          <Typography variant="body2" style={{ color: "black", fontWeight: "bold", marginLeft: "50px" }}>
                             Email: {provider.email}
                           </Typography>
-                          <Typography variant="body2" style={{ color: "black", fontStyle: "italic",marginLeft:"50px" }}>
+                          <Typography variant="body2" style={{ color: "black", fontStyle: "italic", marginLeft: "50px" }}>
                             Number: {provider.number}
                           </Typography>
-
-                          <Typography variant="body2" style={{ color: "black", fontStyle: "italic",marginLeft:"50px" }}>
+                          <Typography variant="body2" style={{ color: "black", fontStyle: "italic", marginLeft: "50px" }}>
                             Description: {provider.discription}
                           </Typography>
-
-{/* 
-                     <Box sx={{ minWidth: 60 }}>
-                                
-                              <FormControl sx={{width:"200px",marginLeft:"50px"}}>
-                                <InputLabel id="demo-simple-select-label">Service</InputLabel>
-                                <Select
-                                  labelId="demo-simple-select-label"
-                                  id="demo-simple-select"
-                                  value={age}
-                                  label="Age"
-                                  onChange={handleChange}
-                                >
-                                  <MenuItem value={10}>Full Body Wash</MenuItem>
-                                  <MenuItem value={20}>Mechanical</MenuItem>
-                                  <MenuItem value={30}>Full scan</MenuItem>
-                                </Select>
-                              </FormControl>
-                      </Box>                           */}
-
-                      {/* Add your form elements here */}
-                      {/* This could include fields for viewing details and placing appointments */}
+                        </>
+                      )}
                     </Typography>
                   </div>
                 </Modal>
 
-               
-
-                
               </Card>
             ))}
           </div>

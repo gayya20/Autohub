@@ -1,0 +1,9 @@
+version: 0.1
+
+endpoints:
+  - name: CozyCoves REST Endpoint
+    port: 8080
+    type: REST
+    networkVisibility: Public
+    context: /
+    schemaFilePath: openapi.json
