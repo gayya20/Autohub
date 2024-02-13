@@ -14,6 +14,7 @@ import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import CarRepairIcon from '@mui/icons-material/CarRepair';
 import PreviewIcon from '@mui/icons-material/Preview';
 import SpaceDashboardIcon from '@mui/icons-material/SpaceDashboard';
+import ViewListIcon from '@mui/icons-material/ViewList';
 
 const NavBar = ({ onIconClick }) => {
   const { state, signOut, getBasicUserInfo } = useAuthContext();
@@ -92,13 +93,17 @@ const NavBar = ({ onIconClick }) => {
               
             </>
           )}
-          {(userRole === 'User' || userRole === 'HouseOwner') && (
+          {(userRole === 'User' || userRole === 'User') && (
             <>
               <IconButton onClick={() => handleIconClick(0)} color={selectedIcon === 0 ? 'primary' : 'inherit'}>
                 <HouseIcon />
+                <h1 style={{fontSize:"12px",color:"gray",marginTop:"10px"}}>Home</h1>
+
               </IconButton>
               <IconButton onClick={() => handleIconClick(1)} color={selectedIcon === 1 ? 'primary' : 'inherit'}>
-                <QuestionAnswerIcon />
+                <ViewListIcon />
+                <h1 style={{fontSize:"12px",color:"gray",marginTop:"8px"}}>My Appoinment</h1>
+
               </IconButton>
             </>
           )}

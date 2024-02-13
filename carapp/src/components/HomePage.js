@@ -3,6 +3,7 @@ import backgroundImage from "../assets/car2.jpg"; // Replace with your image fil
 import { useAuthContext } from "@asgardeo/auth-react";
 import Button from '@mui/material/Button';
 import logo from "../assets/2.png"
+import img from "../../src/assets/AUTO.png"
 
 
 export const HomePage=(props)=> {
@@ -32,7 +33,11 @@ export const HomePage=(props)=> {
         
 
       <div>
+      <img src={img} alt="AutoHub Logo" style={{ width: "600px", height: "200px", marginTop: "-400px" }} />
+
             <div className="top" style={{marginRight:"800px",marginBottom:"40px",fontWeight:"2"}}>
+
+
                 <h1 style={{color:"white",fontWeight:"1",fontSize:"60px",marginLeft:"20px"}}>
                     Welcome to <span style={{fontWeight:"700",fontSize:"100px",color:""}}> <span style={{color:"gray",backgroundColor:"",marginTop:"10px"}}>auto</span>Hub</span>
                 </h1>

@@ -7,6 +7,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import { useAuthContext } from '@asgardeo/auth-react';
+import img from "../../src/assets/AUTO.png"
 
 
 
@@ -17,15 +18,17 @@ export default function ButtonAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static" sx={{ backgroundColor: 'black' }}>
         <Toolbar>
-          <IconButton
+          {/* <IconButton
             size="large"
             edge="start"
             color="inherit"
             aria-label="menu"
             sx={{ mr: 2 }}
           >
-            <MenuIcon />
-          </IconButton>
+            <img />
+          </IconButton> */}
+                <img src={img} alt="AutoHub Logo" style={{ width: "100px", height: "50px", marginTop: "" }} />
+
           <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
             auto hub
           </Typography>

@@ -1,147 +1,261 @@
 import React, { useState, useEffect } from "react";
-// import { Header } from "./Header";
 import ButtonAppBar from "./ButtonAppBar";
-import Card from '@mui/material/Card';
-import CardContent from '@mui/material/CardContent';
-import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
-import { CardActionArea } from '@mui/material';
-import service1 from "../assets/automiraj.jpg";
-import service2 from "../assets/toyotaLanka.jpg";
-
+import axios from "axios";
 import Fortune1 from "../assets/FORTUNER.jpg"
 import Fortune2 from "../assets/LC-70.jpg"
 import Fortune3 from "../assets/top-feature44.jpg"
 import Fab from '@mui/material/Fab';
 import AddIcon from '@mui/icons-material/Add';
-import { red } from '@mui/material/colors';
-import Home from "../pages/admin/Home";
-import { useAuthContext } from '@asgardeo/auth-react';
-import Button from '@mui/material/Button';
+import Card from "@mui/material/Card";
+import CardActions from "@mui/material/CardActions";
+import CardContent from "@mui/material/CardContent";
+import CardMedia from "@mui/material/CardMedia";
+import Button from "@mui/material/Button";
+import image from "../assets/serviceP1.jpg"
+import Modal from "@mui/material/Modal";
+import Paper from "@mui/material/Paper";
+import { styled } from "@mui/material/styles";
+import checklist from "../assets/checklist.png"
+import mechanical from "../assets/mechanical.png"
+import car_service from "../assets/car-service.png"
+import Box from '@mui/material/Box';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+
+const DemoPaper = styled(Paper)(({ theme }) => ({
+  width: 250,
+  height: 250,
+  padding: theme.spacing(2),
+  ...theme.typography.body2,
+  backgroundColor: "#f6f6f6",
+  borderRadius: "10px",
+  textAlign: "center",
+}));
+
+const Dashboard = () => {
+  const [serviceProviders, setServiceProviders] = useState([]);
+  const [openModals, setOpenModals] = useState([]);
+
+  useEffect(() => {
+    loadServiceProviders();
+  }, []);
+
+  const loadServiceProviders = async () => {
+    try {
+      const result = await axios.get("http://localhost:8080/serviceProviders");
+      setServiceProviders(result.data);
+      // Initialize openModals with false values for each provider
+      setOpenModals(new Array(result.data.length).fill(false));
+    } catch (error) {
+      console.error("Error loading service providers:", error);
+    }
+  };
+
+  const handleViewDetails = (index) => {
+    const newOpenModals = [...openModals];
+    newOpenModals[index] = true;
+    setOpenModals(newOpenModals);
+  };
+
+  const handleAppoinment = (index) => {
+    const newOpenModals = [...openModals];
+    newOpenModals[index] = true;
+    setOpenModals(newOpenModals);
+  };
 
 
+  const handleCloseModal = (index) => {
+    const newOpenModals = [...openModals];
+    newOpenModals[index] = false;
+    setOpenModals(newOpenModals);
+  };
 
-const color = red[500];
+  const backgrounds = [Fortune1, Fortune2, Fortune3];
+  const [backgroundIndex, setBackgroundIndex] = useState(0);
+  const [currentBackground, setCurrentBackground] = useState(backgrounds[backgroundIndex]);
 
+  useEffect(() => {
+    setCurrentBackground(backgrounds[backgroundIndex]);
+  }, [backgroundIndex]);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setBackgroundIndex((prevIndex) => (prevIndex + 1) % backgrounds.length);
+    }, 5000); // Change image every 5 seconds
 
-const Dashboard = () => {const [backgroundIndex, setBackgroundIndex] = useState(0);
-    const backgrounds = [Fortune1, Fortune2, Fortune3];
-    const { state, signIn, signOut } = useAuthContext();
+    return () => clearInterval(interval);
+  }, []);
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setBackgroundIndex((prevIndex) => (prevIndex + 1) % backgrounds.length);
-      }, 5000); // Change image every 5 seconds
-  
-      return () => clearInterval(interval);
-    }, []);
-  
-    const currentBackground = backgrounds[backgroundIndex];
-  
-    return (
-      <>
-        <ButtonAppBar />
+  const [age, setAge] = React.useState('');
 
+  const handleChange = (event) => {
+    setAge(event.target.value);
+  };
 
-        
+  return (
+    <>
+      {/* <ButtonAppBar /> */}
+      <div
+        className="background"
+        style={{
+          marginTop: "-10px",
+          height: "600px",
+          width: "100%",
+          backgroundImage: `url(${currentBackground})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          backgroundRepeat: "no-repeat",
+          transition: "background-image 2s ease",
+          position: "relative"
+        }}
+      >
         <div
-          className="background"
           style={{
-            marginTop:"-10px",
-            height: "600px",
-            width: "100%",
-            backgroundImage: `url(${currentBackground})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-            backgroundRepeat: "no-repeat",
-            transition: "background-image 2s ease",
-            position:"relative"
+            position: "absolute",
+            bottom: "90px",
+            left: "25%",
+            transform: "translateX(-50%)",
+            color: "white",
           }}
         >
-<div
-    style={{
-      position: "absolute", // Position the text absolutely
-      bottom: "90px", // Position the text 20px from the bottom
-      left: "25%", // Center horizontally
-      transform: "translateX(-50%)", // Adjust for centering
-      color: "white",
-    }}
-  >
-    <h1 style={{ marginBottom: "30px" ,fontSize:"60px"}}>Over 28 Years </h1>
-    <h1 style={{ marginBottom: "30px" ,fontSize:"40px",fontWeight:"100"}}>Automotive service industry</h1>
-    <h1 style={{ marginBottom: "30px" ,fontSize:"15px",fontWeight:"100"}}>Our island wide network covers a vast range of services empowered by modern and latest technologies.</h1>
-
-  </div>
-          </div>
-
-        <div>
-          <h2 style={{textAlign:"center",fontWeight:"100",fontSize:"50px"}}>Our service</h2>
-        </div>
-      <div style={{ fontSize: "50px", display: "flex", flexDirection: "column", alignItems: "center" }}>
-        <div className="container m-4" style={{ display: "flex", justifyContent: "center" }}>
-          <Card sx={{ maxWidth: 345, marginRight: "50px" }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="200"
-                image={service1}
-                alt="green iguana" />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Toyota Lanka
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ maxWidth: 345, marginRight: "50px" }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="200"
-                image={service2}
-                alt="green iguana" />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Card sx={{ maxWidth: 345 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="200"
-                image={service1}
-                alt="green iguana" />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Lizard
-                </Typography>
-                <Typography variant="body2" color="text.secondary">
-                  Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging across all continents except Antarctica
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-          <Fab color="black" aria-label="add">
-        <AddIcon />
-      </Fab>
-        </div>
-        <div>
-            Contac us
+          <h1 style={{ marginBottom: "30px", fontSize: "60px" }}>Over 28 Years </h1>
+          <h1 style={{ marginBottom: "30px", fontSize: "40px", fontWeight: "100" }}>Automotive service industry</h1>
+          <h1 style={{ marginBottom: "30px", fontSize: "15px", fontWeight: "100" }}>Our island wide network covers a vast range of services empowered by modern and latest technologies.</h1>
         </div>
       </div>
-      <Home/>
+      <div>
+        <h2 style={{ textAlign: "center", fontWeight: "500", fontSize: "70px", marginTop: "60px", marginBottom: "60px" }}>Our service</h2>
+      </div>
+      <div style={{ height: "60vh", width: "100%", backgroundColor: "#e3e1e1", display: "flex" }}>
+        <div style={{ backgroundColor: "", width: "500px", height: "500px", margin: "0 auto", textAlign: "center", marginTop: "100px" }}>
+          <img src={mechanical} alt="AutoHub Logo" style={{ width: "150px", height: "150px", display: "block", margin: "auto" }} />
+          <h1>Car mechanical</h1>
+        </div>
+        <div style={{ backgroundColor: "", width: "500px", height: "500px", margin: "0 auto", textAlign: "center", marginTop: "100px" }}>
+          <img src={checklist} alt="AutoHub Logo" style={{ width: "150px", height: "150px", display: "block", margin: "auto" }} />
+          <h1>Full Sacn</h1>
+        </div>
+        <div style={{ backgroundColor: "", width: "500px", height: "500px", margin: "0 auto", textAlign: "center", marginTop: "100px" }}>
+          <img src={car_service} alt="AutoHub Logo" style={{ width: "150px", height: "150px", display: "block", margin: "auto" }} />
+          <h1>Car Wash</h1>
+        </div>
+      </div>
+      <div style={{ fontSize: "50px", display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <div>
+          <h2 style={{ textAlign: "center", fontWeight: "500", fontSize: "70px", marginTop: "60px", marginBottom: "60px" }}>Our service Providers</h2>
+        </div>
+        <div>
+          <div style={{ backgroundColor: "#80808012", width: "100%", height: "auto", margin: "0px", padding: "50px", display: "flex", flexWrap: "wrap" }}>
+            {serviceProviders.map((provider, index) => (
+              <Card key={provider.id} sx={{ maxWidth: 400, margin: "10px", backgroundColor: "black", color: "#ff4a09" }}>
+                <CardMedia
+                  component="img"
+                  alt={provider.name}
+                  height="150"
+                  image={image}
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {provider.name}
+                  </Typography>
+                  <Typography variant="body2" color="white">
+                    Address: {provider.address}
+                  </Typography>
+                  <Typography variant="body2" color="gray">
+                    Email: {provider.email}
+                  </Typography>
+                </CardContent>
+                <CardActions>
+                  <Button variant="contained" onClick={() => handleViewDetails(index)} style={{ backgroundColor: "#ff4a09", width: "60px", height: "40px" }}>View</Button>
+                  <Button variant="contained" onClick={() => handleAppoinment(index)} style={{ backgroundColor: "#ff4a09", width: "110px", height: "40px" }}>Appoinment</Button>
+                </CardActions>
+
+                
+                <Modal
+                  open={openModals[index]}
+                  onClose={() => handleCloseModal(index)}
+                  aria-labelledby="modal-modal-title"
+                  aria-describedby="modal-modal-description"
+                  key={provider.id}
+                >
+                  <div
+                    style={{
+                      backgroundColor: "rgb(255 255 255 / 90%)",
+                      position: "absolute",
+                      top: "50%",
+                      left: "50%",
+                      transform: "translate(-50%, -50%)",
+                      width: 600,
+                      height: 600,
+                      bgcolor: "background.paper",
+                      boxShadow: 24,
+                      p: 4,
+                    }}
+                  >
+                    <Typography id="modal-modal-title" variant="" component="h2" sx={{ textAlign: "center" ,fontSize:"20px"}}>
+                      Service Provider Details
+                    </Typography>
+                    <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+
+                          <CardMedia
+                        component="img"
+                        alt={provider.name}
+                        height="240"
+                        image={image}
+                        sx={{marginTop:"-10px"}}
+                />
+                      <Typography gutterBottom variant="h5" component="div" sx={{textAlign:"center"}}>
+                        {provider.name}
+                      </Typography>
+                      <Typography variant="body2" style={{ color: "black", fontWeight: "bold",marginLeft:"50px" }}>
+                            Email: {provider.email}
+                          </Typography>
+                          <Typography variant="body2" style={{ color: "black", fontStyle: "italic",marginLeft:"50px" }}>
+                            Number: {provider.number}
+                          </Typography>
+
+                          <Typography variant="body2" style={{ color: "black", fontStyle: "italic",marginLeft:"50px" }}>
+                            Description: {provider.discription}
+                          </Typography>
+
+{/* 
+                     <Box sx={{ minWidth: 60 }}>
+                                
+                              <FormControl sx={{width:"200px",marginLeft:"50px"}}>
+                                <InputLabel id="demo-simple-select-label">Service</InputLabel>
+                                <Select
+                                  labelId="demo-simple-select-label"
+                                  id="demo-simple-select"
+                                  value={age}
+                                  label="Age"
+                                  onChange={handleChange}
+                                >
+                                  <MenuItem value={10}>Full Body Wash</MenuItem>
+                                  <MenuItem value={20}>Mechanical</MenuItem>
+                                  <MenuItem value={30}>Full scan</MenuItem>
+                                </Select>
+                              </FormControl>
+                      </Box>                           */}
+
+                      {/* Add your form elements here */}
+                      {/* This could include fields for viewing details and placing appointments */}
+                    </Typography>
+                  </div>
+                </Modal>
+
+               
+
+                
+              </Card>
+            ))}
+          </div>
+        </div>
+      </div>
     </>
   );
-}
+};
 
 export default Dashboard;

@@ -11,7 +11,7 @@ import UserDshboard from './components/Dashboard.jsx';
 import 'bootstrap/dist/css/bootstrap.min.css';
 // import AdminDasboard from "../src/pages/admin/Home.js"
 import AdminDasboard from "../src/pages/admin/SideBar.jsx"
-
+import OwnerSideBar from './pages/owner/OwnerSideBar.jsx';
 
 
 
@@ -53,8 +53,8 @@ function App() {
         userRole === "Admin" ? (
           <AdminDasboard />
         ) : userRole === "User" ? (
-          <UserDshboard />
-        ) : userRole === "HouseOwner" ? (
+          <OwnerSideBar />
+        ) : userRole === "ServiceProvider" ? (
           <UserDshboard />
         ) : (
           <Home/>

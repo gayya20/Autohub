@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import ButtonAppBar from "../../components/ButtonAppBar";
-import Dashboard from "../../pages/admin/Dashboard"; // Import the Dashboard component
+import EditUser from "../../pages/admin/EditUsers"; // Import the Dashboard component
 
 export default function ViewUsers() {
   const [users, setUsers] = useState([]);
-  const [showDashboard, setShowDashboard] = useState(false); // State to control the display of the Dashboard
+  const [showEditUser, setShowEditUser] = useState(false); // State to control the display of the EditUser
 
   useEffect(() => {
     loadUsers();
@@ -18,14 +18,20 @@ export default function ViewUsers() {
 
   const handleUpdateClick = () => {
     // Perform the update logic here
-    // For demonstration purposes, just set showDashboard to true
-    setShowDashboard(true);
+    // For demonstration purposes, just set showEditUser to true
+    setShowEditUser(true);
   };
+  const deleteUser = async (id) => {
+    await axios.delete(`http://localhost:8080/user/${id}`);
+    loadUsers();
+  };
+
+
 
   return (
     <>
-      {showDashboard ? ( // Conditionally render the Dashboard component
-        <Dashboard />
+      {showEditUser ? ( // Conditionally render the EditUser component
+        <EditUser />
       ) : (
         <>
           <h1 style={{ color: "black", fontWeight: "400", marginTop: "20px", marginLeft: "20px" }}>View Users</h1>
@@ -51,7 +57,9 @@ export default function ViewUsers() {
                       <td>
                         <button className="btn btn-primary mx-2">View</button>
                         <button className="btn btn-outline-primary mx-2" onClick={handleUpdateClick}>Update</button> {/* Call handleUpdateClick on button click */}
-                        <button className="btn btn-danger mx-2">Delete</button>
+                        <button className="btn btn-danger mx-2" 
+                            onClick={() => deleteUser(user.id)}
+                        >Delete</button>
                       </td>
                     </tr>
                   ))}
