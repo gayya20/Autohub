@@ -38,7 +38,7 @@ export default function Dashboard() {
 
   const loadServiceProviders = async () => {
     try {
-      const result = await axios.get("http://localhost:8080/serviceProviders");
+      const result = await axios.get("https://ff614023-7da2-43af-bfd7-b04d043df9d4-dev.e1-us-east-azure.choreoapis.dev/cdey/backend/carapp-rest-endpoint-5c6/v1.0/serviceProviders");
       setServiceProviders(result.data);
     } catch (error) {
       console.error("Error loading service providers:", error);
