@@ -47,7 +47,7 @@ export default function Dashboard() {
 
   const handleDeleteProvider = async (providerId) => {
     try {
-      await axios.delete(`http://localhost:8080/serviceProviders/${providerId}`);
+      await axios.delete(`https://ff614023-7da2-43af-bfd7-b04d043df9d4-dev.e1-us-east-azure.choreoapis.dev/cdey/backend/carapp-rest-endpoint-5c6/v1.0/serviceProviders/${providerId}`);
       // Remove the deleted provider from the state
       setServiceProviders(serviceProviders.filter(provider => provider.id !== providerId));
       console.log("Provider deleted successfully");

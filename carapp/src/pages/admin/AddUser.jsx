@@ -23,7 +23,7 @@ export default function AddUser() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post("http://localhost:8080/addUser", formData);
+      const response = await axios.post("https://ff614023-7da2-43af-bfd7-b04d043df9d4-dev.e1-us-east-azure.choreoapis.dev/cdey/backend/carapp-rest-endpoint-5c6/v1.0/addUser", formData);
       console.log("Data added successfully:", response.data);
       setShowView(true);
       setShowCancelButton(false); // Hide the Cancel button after submission
