@@ -12,7 +12,7 @@ export default function ViewUsers() {
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get("http://localhost:8080/getUse");
+    const result = await axios.get("http://localhost:8080/getUser");
     setUsers(result.data);
   };
 
