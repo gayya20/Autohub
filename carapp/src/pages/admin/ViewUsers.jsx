@@ -12,7 +12,7 @@ export default function ViewUsers() {
   }, []);
 
   const loadUsers = async () => {
-    const result = await axios.get("http://localhost:8080/getUser");
+    const result = await axios.get("https://ff614023-7da2-43af-bfd7-b04d043df9d4-dev.e1-us-east-azure.choreoapis.dev/cdey/backend/carapp-rest-endpoint-5c6/v1.0/getUser");
     setUsers(result.data);
   };
 
@@ -22,7 +22,7 @@ export default function ViewUsers() {
     setShowEditUser(true);
   };
   const deleteUser = async (id) => {
-    await axios.delete(`http://localhost:8080/user/${id}`);
+    await axios.delete(`https://ff614023-7da2-43af-bfd7-b04d043df9d4-dev.e1-us-east-azure.choreoapis.dev/cdey/backend/carapp-rest-endpoint-5c6/v1.0/user/${id}`);
     loadUsers();
   };
 
